@@ -5,6 +5,7 @@
   "author": "Todd Christensen",
   "private": true,
   "scripts": {
+    "heroku-postbuild": "npm run build",
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
