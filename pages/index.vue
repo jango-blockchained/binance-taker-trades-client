@@ -90,9 +90,11 @@
         </thead>
         <tbody slot="body" slot-scope="sort" :class="{ favorites: isActive }">
           <tr
-            v-for="value in sort.values"
-            :key="value.pairName"
+            v-for="(value, index) in sort.values"
+            :key="value.symbol"
+            :item="index"
             class="bg-white text-gray-700 dark-mode:bg-darksecondary dark-mode:text-gray-300"
+            :id="value.symbol"
           >
             <td
               class="font-semibold leading-tight px-2 py-2 lg:px-5 lg:py-5 border-b border-gray-200 dark-mode:border-darktertiary text-xs lg:text-sm" title="taker volume"
@@ -198,7 +200,7 @@
         </tbody>
       </sorted-table>
 
-      <!-- <div v-html="values" class="mb-4 text-gray-700" /> -->
+      <div v-html="SumValues" class="mb-4 text-gray-700" />
     </div>
   </div>
 </template>
@@ -244,9 +246,57 @@ export default {
         obj.netHighPercent = +obj.netHighPercent;
         obj.netBuyVsSell = +obj.netBuyVsSell;
       });
-
       return array;
     },
+
+    SumValues: function() {
+      let arr = this.values;
+
+      let netVolume = arr.map(a => {
+      let total = 0;
+      total += a.netVolume;
+      return total;
+    }).reduce((a, b) => a + b, 0);
+
+    let marketBuyVolume = arr.map(a => {
+      let total = 0;
+      total += a.marketBuyVolume;
+      return total;
+    }).reduce((a, b) => a + b, 0);
+
+    let marketSellVolume = arr.map(a => {
+      let total = 0;
+      total += a.marketSellVolume;
+      return total;
+    }).reduce((a, b) => a + b, 0);
+
+    let netBuyVsSell = marketBuyVolume - marketSellVolume;
+    
+    let percentNet = (((marketBuyVolume - marketSellVolume) / (marketBuyVolume + marketSellVolume)) * 100);
+
+    let netLow = arr.map(a => {
+      let total = 0;
+      total += a.netLow;
+      return total;
+    }).reduce((a, b) => a + b, 0);
+
+    let netMid = arr.map(a => {
+      let total = 0;
+      total += a.netMid;
+      return total;
+    }).reduce((a, b) => a + b, 0);
+
+    let netHigh = arr.map(a => {
+      let total = 0;
+      total += a.netHigh;
+      return total;
+    }).reduce((a, b) => a + b, 0);
+    
+    let all = {symbol: "ALL SYMBOLS", netVolume, percentNet, netBuyVsSell, netLow, netMid, netHigh}
+    console.log(all);
+    this.values.push(all);
+
+    }
     
   },
   filters: {
@@ -273,6 +323,10 @@ export default {
     }
   },
   methods: {
+   faveIt: function(e) {
+            this.favorites.push({symbol: value.symbol})
+        },
+
     loadData() {
       axios
         .get(url)
@@ -314,6 +368,7 @@ export default {
   data() {
     return {
       shitCoins: [],
+      favorites: [],
       newData: [],
       info: [],
       data: [],
