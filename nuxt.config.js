@@ -34,8 +34,14 @@ export default {
    */
   buildModules: [
     // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
-    "@nuxtjs/tailwindcss"
+    "@nuxtjs/tailwindcss",
+    "@nuxtjs/gtm"
   ],
+  gtm: {
+    id: "GTM-P9R76GV",
+    // Set to false to disable module in development mode
+    dev: true
+  },
   /*
    ** Nuxt.js modules
    */
