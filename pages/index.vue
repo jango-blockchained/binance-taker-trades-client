@@ -35,7 +35,7 @@
       <sorted-table
         :values="values"
         sort="netVolume"
-        dir="asc"
+        dir="desc"
         class="min-w-full leading-normal mb-6"
       >
         <thead>
