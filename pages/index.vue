@@ -19,6 +19,15 @@
           <div>
             <h2 class="font-bold text-xl text-gray-700 dark-mode:text-gray-300">Binance Live Taker Trader Info</h2>
             <h4 class="text-sm text-gray-600 dark-mode:text-gray-400">Displays average taker (market buy &amp; sell) activity for the past 15 minutes.</h4>
+
+            <div class="favorites__toggle flex mt-4 items-center">
+              <span @click="shitCoinToggle()" :class="{'bg-gray-500 justify-end active': filterShitCoins}" class="favorites__toggle-button border rounded-full border-grey flex items-center cursor-pointer w-12 justify-start">
+                <span class="rounded-full border w-6 h-6 border-grey shadow-inner bg-white dark-mode:bg-darktertiary shadow">
+                </span>
+              </span>
+              <span class="mx-2 text-gray-400 text-xs font-bold">Filter shitcoins > $1000 volume</span>
+            </div>
+          </div>
             
             <!-- <div class="favorites__toggle flex mt-4 items-center">
               <span @click="favoritesToggle()" :class="{'bg-gray-500 justify-end active': isActive}" class="favorites__toggle-button border rounded-full border-grey flex items-center cursor-pointer w-12 justify-start">
@@ -26,8 +35,8 @@
                 </span>
               </span>
               <span class="mx-2 text-gray-400 text-xs font-semibold">Filter Favorites</span>
-            </div> -->
-          </div>
+            </div>
+          </div> -->
          
       </div>
     </div>
@@ -219,36 +228,28 @@ export default {
   computed: {
     values: function() {
       let obj = this.info;
-
       var array = [];
       for (var key in obj) {
         array.push(obj[key]);
       }
 
       array.forEach(obj => {
-        obj.totalTrades = +obj.totalTrades;
-        obj.averageTradeSize = +obj.averageTradeSize;
-        obj.marketBuyVolume = +obj.marketBuyVolume;
-        obj.marketSellVolume = +obj.marketSellVolume;
-        obj.netVolume = +obj.netVolume;
-        obj.percentNet = +obj.percentNet;
-        obj.lowMarketBuys = +obj.lowMarketBuys;
-        obj.lowMarketSells = +obj.lowMarketSells;
-        obj.netLow = +obj.netLow;
-        obj.midMarketBuys = +obj.midMarketBuys;
-        obj.midMarketSells = +obj.midMarketSells;
-        obj.netMid = +obj.netMid;
-        obj.highMarketBuys = +obj.highMarketBuys;
-        obj.highMarketSells = +obj.highMarketSells;
-        obj.netHigh = +obj.netHigh;
-        obj.netLowPercent = +obj.netLowPercent;
-        obj.netMidPercent = +obj.netMidPercent;
-        obj.netHighPercent = +obj.netHighPercent;
+        obj.totalTrades = +obj.totalTrades; obj.averageTradeSize = +obj.averageTradeSize; obj.marketBuyVolume = +obj.marketBuyVolume;
+        obj.marketSellVolume = +obj.marketSellVolume; obj.netVolume = +obj.netVolume; obj.percentNet = +obj.percentNet;
+        obj.lowMarketBuys = +obj.lowMarketBuys; obj.lowMarketSells = +obj.lowMarketSells; obj.netLow = +obj.netLow;
+        obj.midMarketBuys = +obj.midMarketBuys; obj.midMarketSells = +obj.midMarketSells; obj.netMid = +obj.netMid;
+        obj.highMarketBuys = +obj.highMarketBuys; obj.highMarketSells = +obj.highMarketSells; obj.netHigh = +obj.netHigh;
+        obj.netLowPercent = +obj.netLowPercent; obj.netMidPercent = +obj.netMidPercent; obj.netHighPercent = +obj.netHighPercent;
         obj.netBuyVsSell = +obj.netBuyVsSell;
       });
+      // shitcoin filter (should do this on the back-end instead as a property using percentile as a measurement)
+      if( this.filterShitCoins === true) {
+         return array.filter((a) => {
+           return a.netVolume > 1000;
+        })
+      } 
       return array;
     },
-
     SumValues: function() {
       let arr = this.values;
 
@@ -297,7 +298,6 @@ export default {
     this.values.push(all);
 
     }
-    
   },
   filters: {
     slashIt(value) {
@@ -323,6 +323,9 @@ export default {
     }
   },
   methods: {
+  shitCoinToggle(){
+      this.filterShitCoins = !this.filterShitCoins;
+    },
    faveIt: function(e) {
             this.favorites.push({symbol: value.symbol})
         },
@@ -367,6 +370,7 @@ export default {
   },
   data() {
     return {
+      filterShitCoins: true,
       shitCoins: [],
       favorites: [],
       newData: [],
