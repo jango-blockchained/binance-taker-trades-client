@@ -13,34 +13,33 @@
       </div>
     </nav>
     <div class="container -mb-px flex justify-center flex-wrap m-auto">
-
       <div class="flex justify-start w-full my-6">
-      <div class="w-full mb-2 px-2 flex justify-between">
+        <div class="w-full mb-2 px-2 flex justify-between items-end">
           <div>
             <h2 class="font-bold text-xl text-gray-700 dark-mode:text-gray-300">Binance Live Taker Trader Info</h2>
             <h4 class="text-sm text-gray-600 dark-mode:text-gray-400">Displays average taker (market buy &amp; sell) activity for the past 15 minutes.</h4>
-
-            <div class="favorites__toggle flex mt-4 items-center">
+          </div>
+          <div class="flex">
+            <div class="favorites__toggle flex mt-4 items-center p-2">
               <span @click="shitCoinToggle()" :class="{'bg-gray-500 justify-end active': filterShitCoins}" class="favorites__toggle-button border rounded-full border-grey flex items-center cursor-pointer w-12 justify-start">
                 <span class="rounded-full border w-6 h-6 border-grey shadow-inner bg-white dark-mode:bg-darktertiary shadow">
                 </span>
               </span>
               <span class="mx-2 text-gray-400 text-xs font-bold">Filter shitcoins > $1000 volume</span>
             </div>
-          </div>
-            
-            <!-- <div class="favorites__toggle flex mt-4 items-center">
-              <span @click="favoritesToggle()" :class="{'bg-gray-500 justify-end active': isActive}" class="favorites__toggle-button border rounded-full border-grey flex items-center cursor-pointer w-12 justify-start">
+            <!-- <div class="favorites__toggle flex mt-4 items-center p-2">
+              <span @click="favoritesToggle()" :class="{'bg-gray-500 justify-end active': favoritesActive}" class="favorites__toggle-button border rounded-full border-grey flex items-center cursor-pointer w-12 justify-start">
                 <span class="rounded-full border w-6 h-6 border-grey shadow-inner bg-white dark-mode:bg-darktertiary shadow">
                 </span>
               </span>
               <span class="mx-2 text-gray-400 text-xs font-semibold">Filter Favorites</span>
-            </div>
-          </div> -->
-         
+            </div> -->
+          </div>
+        </div>
       </div>
     </div>
 
+    <div class="container -mb-px flex justify-center flex-wrap m-auto">
       <sorted-table
         :values="values"
         sort="netVolume"
@@ -208,7 +207,7 @@
           </tr>
         </tbody>
       </sorted-table>
-
+    </div>
       <div v-html="SumValues" class="mb-4 text-gray-700" />
     </div>
   </div>
@@ -272,7 +271,6 @@ export default {
     }).reduce((a, b) => a + b, 0);
 
     let netBuyVsSell = marketBuyVolume - marketSellVolume;
-    
     let percentNet = (((marketBuyVolume - marketSellVolume) / (marketBuyVolume + marketSellVolume)) * 100);
 
     let netLow = arr.map(a => {
@@ -381,13 +379,17 @@ export default {
       isActive: false,
       loading: true,
       updated_at: new Date().toTimeString()
-
     };
   }
 };
+
+
+
 </script>
 
 <style>
+
+
   span {
     transition: all .3s linear;
     -webkit-transition: all .3s linear;
