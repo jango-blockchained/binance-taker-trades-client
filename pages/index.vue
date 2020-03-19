@@ -215,8 +215,8 @@
 
 <script>
 const axios = require("axios");
-let url = "http://localhost:5000/api/pairs";
-// let url = "https://arcane-ravine-11965.herokuapp.com/api/pairs";
+// let url = "http://localhost:5000/api/pairs";
+let url = "https://arcane-ravine-11965.herokuapp.com/api/pairs";
 
 export default {
   components: {},
