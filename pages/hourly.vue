@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <div class="container -mb-px flex justify-center flex-wrap m-auto overflow-y-scroll">
+    <div class="container flex justify-center flex-wrap m-auto overflow-y-scroll">
       <sorted-table
         :values="values"
         sort="netVolume"
