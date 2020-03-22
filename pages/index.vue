@@ -12,7 +12,7 @@
         </a>
       </div>
     </nav>
-    <div class="container -mb-px flex justify-center flex-wrap m-auto">
+    <div class="container flex justify-center flex-wrap m-auto">
       <div class="flex justify-start w-full my-6">
         <div class="w-full mb-2 px-2 flex justify-between items-end">
           <div>
@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <div class="container -mb-px flex justify-center flex-wrap m-auto">
+    <div class="container -mb-px flex justify-center flex-wrap m-auto overflow-y-scroll">
       <sorted-table
         :values="values"
         sort="netVolume"
